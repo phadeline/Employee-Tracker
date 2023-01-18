@@ -1,5 +1,26 @@
-Insert into customers (id, first_name, last_name)
+Insert into department (departmentname)
 values
-(1, "Phay", "evra"),
-(2, "Chris", "Cone"),
-(3, "Patrick", "Star");
+("Sales"),
+("Marketing"),
+("Accounting"),
+("Research"),
+("Information Technology");
+
+
+Insert into roleTable (title, salary, department_id)
+values
+("Chief Marketing Officer", 90000, 2),
+("Chief Financial Officer", 120000, 3),
+("Marketing Manager", 85000, 2),
+("Sales Manager", 80000, 1),
+("Sales Representative", 80000, 1),
+("Junior Software Engineer", 75000, 5);
+
+Insert into employee (id, first_name, last_name, role_id, manager_id)
+values
+(1, "David", "Dubrick", 1, NULL),
+(2, "John", "Connor", 2, NULL),
+(3, "Mary", "Johnson", 3, 1),
+(4, "Julia", "Hommer", 4, NULL),
+(5, "Xavier", "White", 5, 4),
+(6, "Phay", "Evra", 6, NULL);;
