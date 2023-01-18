@@ -16,11 +16,11 @@ values
 ("Sales Representative", 80000, 1),
 ("Junior Software Engineer", 75000, 5);
 
-Insert into employee (id, first_name, last_name, role_id, manager_id)
+Insert into employee (first_name, last_name, role_id, manager_id)
 values
-(1, "David", "Dubrick", 1, NULL),
-(2, "John", "Connor", 2, NULL),
-(3, "Mary", "Johnson", 3, 1),
-(4, "Julia", "Hommer", 4, NULL),
-(5, "Xavier", "White", 5, 4),
-(6, "Phay", "Evra", 6, NULL);;
+("David", "Dubrick", 1, NULL),
+("John", "Connor", 2, NULL),
+("Mary", "Johnson", 3, 1),
+("Julia", "Hommer", 4, NULL),
+("Xavier", "White", 5, 4),
+("Phay", "Evra", 6, NULL);
