@@ -17,7 +17,7 @@ const db = mysql.createConnection(
   console.log(`Connected to the employeeTracker_db database.`)
 );
 
-// Query database
+// view employee information
 function employeeTable() {
   db.query(
     `select employee.id,
@@ -26,7 +26,8 @@ function employeeTable() {
      roleTable.title, 
      roletable.salary, 
      department.departmentname, 
-     CONCAT(a.first_name, a.last_name) as manager from employee
+     CONCAT(a.first_name, Space(1), a.last_name) as manager 
+     from employee
   left join roleTable
   on employee.role_id = roleTable.id
   left join department
@@ -41,9 +42,12 @@ function employeeTable() {
   );
 }
 
+//view all roles
 function roleTable() {
   db.query(
-    "SELECT roleTable.id, roleTable.title, roleTable.salary, department.departmentname FROM roleTable JOIN department on roleTable.department_id = department.id",
+    `SELECT roleTable.id, roleTable.title, 
+    roleTable.salary, department.departmentname 
+    FROM roleTable JOIN department on roleTable.department_id = department.id`,
     function (err, results) {
       const table = cTable.getTable(results);
       console.log(table);
@@ -51,12 +55,30 @@ function roleTable() {
   );
 }
 
+//view all departments
 function departmentTable() {
   db.query("SELECT * FROM department", function (err, results) {
     // console.Table(results);
     const table = cTable.getTable(results);
     console.log(table);
+    if (err) {
+      console.error(err);
+    }
   });
 }
 
-module.exports = { departmentTable, employeeTable, roleTable };
+//add a department
+function addDepartment(additionalDeparment) {
+  console.log(additionalDeparment);
+  db.query(
+    "INSERT INTO department SET ?",
+    { departmentname: additionalDeparment },
+    function (err, results) {
+      if (err) {
+        console.error(err);
+      }
+    }
+  );
+}
+
+module.exports = { departmentTable, employeeTable, roleTable, addDepartment };

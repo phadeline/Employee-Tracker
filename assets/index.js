@@ -1,5 +1,10 @@
 const inquirer = require("inquirer");
-const { departmentTable, employeeTable, roleTable } = require("./queryfunctions");
+const {
+  departmentTable,
+  employeeTable,
+  roleTable,
+  addDepartment,
+} = require("./queryfunctions");
 
 //do the inquirer promts here
 
@@ -31,9 +36,26 @@ function allOptions() {
         case "view all employees":
           employeeTable();
           break;
-        // default:
-        //   makeTeam();
+        case "add a department":
+          newDepartment();
+          break;
       }
+    });
+}
+
+function newDepartment() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "department",
+        message: "what is the name of the new department?",
+      },
+    ])
+    .then((response) => {
+      const additionalDeparment = response.department;
+      addDepartment(additionalDeparment);
+      departmentTable();
     });
 }
 
