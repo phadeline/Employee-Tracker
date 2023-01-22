@@ -4,9 +4,12 @@ const {
   employeeTable,
   roleTable,
   addDepartment,
+  addRole,
+  departmentoptions,
 } = require("./queryfunctions");
 
-//do the inquirer promts here
+
+
 
 function allOptions() {
   inquirer
@@ -39,6 +42,15 @@ function allOptions() {
         case "add a department":
           newDepartment();
           break;
+        case "add a role":
+          newRole();
+          break;
+        case "add an employee":
+          newDepartment();
+          break;
+        case "update an employee role":
+          newDepartment();
+          break;
       }
     });
 }
@@ -56,6 +68,34 @@ function newDepartment() {
       const additionalDeparment = response.department;
       addDepartment(additionalDeparment);
       departmentTable();
+    });
+}
+
+function newRole() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "title",
+        message: "what is the title of the new role?",
+      },
+      {
+        type: "input",
+        name: "salary",
+        message: "what is the salary of the new role?",
+      },
+      {
+        type: "list",
+        name: "chooseOptions",
+        message: "What department is this role for?",
+        choices: departmentoptions(),
+      },
+    ])
+    .then((response) => {
+      const addNewTitle = response.title;
+      const addNewSalary = parseInt(response.salary);
+      const departmentRole = response.chooseOptions;
+      addRole(addNewTitle, addNewSalary, departmentRole);
     });
 }
 

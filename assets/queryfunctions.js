@@ -21,12 +21,12 @@ const db = mysql.createConnection(
 function employeeTable() {
   db.query(
     `select employee.id,
-     employee.first_name, 
-     employee.last_name, 
-     roleTable.title, 
-     roletable.salary, 
-     department.departmentname, 
-     CONCAT(a.first_name, Space(1), a.last_name) as manager 
+     employee.first_name,
+     employee.last_name,
+     roleTable.title,
+     roletable.salary,
+     department.departmentname,
+     CONCAT(a.first_name, Space(1), a.last_name) as manager
      from employee
   left join roleTable
   on employee.role_id = roleTable.id
@@ -42,11 +42,11 @@ function employeeTable() {
   );
 }
 
-//view all roles
+//view all roles table joined with department Table
 function roleTable() {
   db.query(
-    `SELECT roleTable.id, roleTable.title, 
-    roleTable.salary, department.departmentname 
+    `SELECT roleTable.id, roleTable.title,
+    roleTable.salary, department.departmentname
     FROM roleTable JOIN department on roleTable.department_id = department.id`,
     function (err, results) {
       const table = cTable.getTable(results);
@@ -55,7 +55,7 @@ function roleTable() {
   );
 }
 
-//view all departments
+// //view all departments
 function departmentTable() {
   db.query("SELECT * FROM department", function (err, results) {
     // console.Table(results);
@@ -79,6 +79,56 @@ function addDepartment(additionalDeparment) {
       }
     }
   );
+  db.query("SELECT * FROM department", function (err, results) {
+    // console.Table(results);
+    const table = cTable.getTable(results);
+    console.log(table);
+    if (err) {
+      console.error(err);
+    }
+  });
 }
 
-module.exports = { departmentTable, employeeTable, roleTable, addDepartment };
+// add a new role to roleTable
+function addRole(addNewTitle, addNewSalary, departmentRole) {
+  console.log(addNewTitle, addNewSalary, departmentRole);
+
+  db.query(`SELECT departmentname FROM department`, function (err, results) {
+    console.log(results);
+    //This finds the department_id that belongs to the selected department
+    const result = results.findIndex((depart) => {
+      return depart.departmentname == departmentRole;
+    });
+    console.log(result);
+    const Id = result + 1;
+    console.log(Id);
+
+    //new row is added to roleTable
+    db.query("INSERT INTO roleTable SET ?", {
+      title: addNewTitle,
+      salary: addNewSalary,
+      department_id: Id,
+    });
+
+    //displays the roleTable
+    db.query(`SELECT * FROM roleTable`, function (err, results) {
+      const table = cTable.getTable(results);
+      console.log(table);
+    });
+  });
+}
+
+function departmentoptions() {
+db.query("SELECT departmentname FROM department", function (err, results) {
+  return results.forEach((result) => console.log(result.departmentname));
+});
+}
+
+module.exports = {
+  departmentTable,
+  employeeTable,
+  roleTable,
+  addDepartment,
+  addRole,
+  departmentoptions,
+};
