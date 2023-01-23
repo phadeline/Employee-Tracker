@@ -118,12 +118,12 @@ function newRole() {
 
 function newEmployee() {
   db.query(
-    `SELECT CONCAT(a.first_name, Space(1), a.last_name) as manager,
-  a.id as managerid, roleTable.id as roleid, roleTable.title as title
-  FROM employee 
-  left join roleTable on roleTable.id = employee.role_id
-  left join employee as a on employee.manager_id = a.id
-  order by employee.id;`,
+    `SELECT CONCAT(employee.first_name, Space(1), employee.last_name) as manager,
+    employee.id as managerid, roleTable.id as roleid, roleTable.title as title
+    FROM employee 
+    left join roleTable on roleTable.id = employee.role_id
+    left join employee as a on employee.manager_id = a.id
+    order by title;`,
     function (err, results) {
       inquirer
         .prompt([
@@ -148,7 +148,7 @@ function newEmployee() {
           {
             type: "list",
             name: "manager",
-            message: "What is the employee's role?",
+            message: "Who is the employee' manager?",
             choices: results.map((result) => {
               return { name: result.manager, value: result.managerid };
             }),

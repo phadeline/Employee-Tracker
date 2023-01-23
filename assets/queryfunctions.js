@@ -38,6 +38,9 @@ function employeeTable() {
     function (err, results) {
       const table = cTable.getTable(results);
       console.log(table);
+      if (err) {
+        console.error(err);
+      }
     }
   );
 }
@@ -51,6 +54,9 @@ function roleTable() {
     function (err, results) {
       const table = cTable.getTable(results);
       console.log(table);
+      if (err) {
+        console.error(err);
+      }
     }
   );
 }
@@ -104,6 +110,9 @@ function addRole(addNewTitle, addNewSalary, departmentRole) {
   db.query(`SELECT * FROM roleTable`, function (err, results) {
     const table = cTable.getTable(results);
     console.log(table);
+    if (err) {
+      console.error(err);
+    }
   });
 }
 
@@ -118,6 +127,9 @@ function addEmployee(newfirstname, newlastname, addtitle, addmanager) {
   db.query(`SELECT * FROM employee`, function (err, results) {
     const table = cTable.getTable(results);
     console.log(table);
+    if (err) {
+      console.error(err);
+    }
   });
 }
 
