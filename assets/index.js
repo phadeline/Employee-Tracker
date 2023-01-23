@@ -6,6 +6,7 @@ const {
   addDepartment,
   addRole,
   addEmployee,
+  employeeUpdate
 } = require("./queryfunctions");
 
 // Import and require mysql2
@@ -62,7 +63,7 @@ function allOptions() {
           newEmployee();
           break;
         case "update an employee role":
-          newDepartment();
+          updateEmployee();
           break;
       }
     });
@@ -125,6 +126,9 @@ function newEmployee() {
     left join employee as a on employee.manager_id = a.id
     order by title;`,
     function (err, results) {
+      if (err) {
+        console.log(err);
+      }
       inquirer
         .prompt([
           {
@@ -160,6 +164,45 @@ function newEmployee() {
           const addtitle = response.title;
           const addmanager = response.manager;
           addEmployee(newfirstname, newlastname, addtitle, addmanager);
+        });
+    }
+  );
+}
+
+function updateEmployee() {
+  db.query(
+    `SELECT CONCAT(employee.first_name, Space(1), employee.last_name) as employeename,
+  employee.id as employeeid, roleTable.id as roleid, roleTable.title as title
+  FROM employee 
+  left join roleTable on roleTable.id = employee.role_id;`,
+    function (err, results) {
+      if (err) {
+        console.log(err);
+      }
+      inquirer
+        .prompt([
+          {
+            type: "list",
+            name: "employeename",
+            message: "which employee would you like to update ?",
+            choices: results.map((result) => {
+              return { name: result.employeename, value: result.employeeid };
+            }),
+          },
+          {
+            type: "list",
+            name: "employeerole",
+            message: "what is the employee's new role?",
+            choices: results.map((result) => {
+              return { name: result.title, value: result.roleid };
+            }),
+          },
+        ])
+        .then((response) => {
+          const idofemployee = response.employeename;
+          const employeenewrole = response.employeerole;
+
+          employeeUpdate(idofemployee, employeenewrole);
         });
     }
   );

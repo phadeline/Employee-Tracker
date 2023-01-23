@@ -133,6 +133,26 @@ function addEmployee(newfirstname, newlastname, addtitle, addmanager) {
   });
 }
 
+function employeeUpdate(idofemployee, employeenewrole) {
+  db.query(`UPDATE employee set role_id = ? WHERE id = ?`, [
+    employeenewrole,
+    idofemployee,
+  ]);
+  db.query(
+    `SELECT CONCAT(employee.first_name, Space(1), employee.last_name) as employee,
+  employee.id as employeeid, roleTable.id as roleid, roleTable.title as title
+  FROM employee 
+  left join roleTable on roleTable.id = employee.role_id;`,
+    function (err, results) {
+      const table = cTable.getTable(results);
+      console.log(table);
+      if (err) {
+        console.error(err);
+      }
+    }
+  );
+}
+
 module.exports = {
   departmentTable,
   employeeTable,
@@ -140,4 +160,5 @@ module.exports = {
   addDepartment,
   addRole,
   addEmployee,
+  employeeUpdate,
 };
