@@ -5,11 +5,24 @@ const {
   roleTable,
   addDepartment,
   addRole,
-  departmentoptions,
+  addEmployee,
 } = require("./queryfunctions");
 
+// Import and require mysql2
+const mysql = require("mysql2");
 
-
+// Connect to database
+const db = mysql.createConnection(
+  {
+    host: "localhost",
+    // MySQL username,
+    user: "root",
+    // TODO: Add MySQL password
+    password: "password",
+    database: "employeeTracker_db",
+  },
+  console.log(`Connected to the employeeTracker_db database.`)
+);
 
 function allOptions() {
   inquirer
@@ -46,7 +59,7 @@ function allOptions() {
           newRole();
           break;
         case "add an employee":
-          newDepartment();
+          newEmployee();
           break;
         case "update an employee role":
           newDepartment();
@@ -72,31 +85,84 @@ function newDepartment() {
 }
 
 function newRole() {
-  inquirer
-    .prompt([
-      {
-        type: "input",
-        name: "title",
-        message: "what is the title of the new role?",
-      },
-      {
-        type: "input",
-        name: "salary",
-        message: "what is the salary of the new role?",
-      },
-      {
-        type: "list",
-        name: "chooseOptions",
-        message: "What department is this role for?",
-        choices: departmentoptions(),
-      },
-    ])
-    .then((response) => {
-      const addNewTitle = response.title;
-      const addNewSalary = parseInt(response.salary);
-      const departmentRole = response.chooseOptions;
-      addRole(addNewTitle, addNewSalary, departmentRole);
-    });
+  db.query("SELECT * FROM department", function (err, results) {
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "title",
+          message: "what is the title of the new role?",
+        },
+        {
+          type: "input",
+          name: "salary",
+          message: "what is the salary of the new role?",
+        },
+        {
+          type: "list",
+          name: "chooseOptions",
+          message: "What department is this role for?",
+          choices: results.map((result) => {
+            return { name: result.departmentname, value: result.id };
+          }),
+        },
+      ])
+      .then((response) => {
+        const addNewTitle = response.title;
+        const addNewSalary = parseInt(response.salary);
+        const departmentRole = response.chooseOptions;
+        addRole(addNewTitle, addNewSalary, departmentRole);
+      });
+  });
+}
+
+function newEmployee() {
+  db.query(
+    `SELECT CONCAT(a.first_name, Space(1), a.last_name) as manager,
+  a.id as managerid, roleTable.id as roleid, roleTable.title as title
+  FROM employee 
+  left join roleTable on roleTable.id = employee.role_id
+  left join employee as a on employee.manager_id = a.id
+  order by employee.id;`,
+    function (err, results) {
+      inquirer
+        .prompt([
+          {
+            type: "input",
+            name: "firstname",
+            message: "what is the employee's first name ?",
+          },
+          {
+            type: "input",
+            name: "lastname",
+            message: "what is the employee's last name?",
+          },
+          {
+            type: "list",
+            name: "title",
+            message: "What is the employee's role?",
+            choices: results.map((result) => {
+              return { name: result.title, value: result.roleid };
+            }),
+          },
+          {
+            type: "list",
+            name: "manager",
+            message: "What is the employee's role?",
+            choices: results.map((result) => {
+              return { name: result.manager, value: result.managerid };
+            }),
+          },
+        ])
+        .then((response) => {
+          const newfirstname = response.firstname;
+          const newlastname = response.lastname;
+          const addtitle = response.title;
+          const addmanager = response.manager;
+          addEmployee(newfirstname, newlastname, addtitle, addmanager);
+        });
+    }
+  );
 }
 
 module.exports = allOptions;

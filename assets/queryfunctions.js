@@ -93,35 +93,32 @@ function addDepartment(additionalDeparment) {
 function addRole(addNewTitle, addNewSalary, departmentRole) {
   console.log(addNewTitle, addNewSalary, departmentRole);
 
-  db.query(`SELECT departmentname FROM department`, function (err, results) {
-    console.log(results);
-    //This finds the department_id that belongs to the selected department
-    const result = results.findIndex((depart) => {
-      return depart.departmentname == departmentRole;
-    });
-    console.log(result);
-    const Id = result + 1;
-    console.log(Id);
+  //new row is added to roleTable
+  db.query("INSERT INTO roleTable SET ?", {
+    title: addNewTitle,
+    salary: addNewSalary,
+    department_id: departmentRole,
+  });
 
-    //new row is added to roleTable
-    db.query("INSERT INTO roleTable SET ?", {
-      title: addNewTitle,
-      salary: addNewSalary,
-      department_id: Id,
-    });
-
-    //displays the roleTable
-    db.query(`SELECT * FROM roleTable`, function (err, results) {
-      const table = cTable.getTable(results);
-      console.log(table);
-    });
+  //displays the roleTable
+  db.query(`SELECT * FROM roleTable`, function (err, results) {
+    const table = cTable.getTable(results);
+    console.log(table);
   });
 }
 
-function departmentoptions() {
-db.query("SELECT departmentname FROM department", function (err, results) {
-  return results.forEach((result) => console.log(result.departmentname));
-});
+function addEmployee(newfirstname, newlastname, addtitle, addmanager) {
+  db.query("INSERT INTO employee SET ?", {
+    first_name: newfirstname,
+    last_name: newlastname,
+    role_id: addtitle,
+    manager_id: addmanager,
+  });
+
+  db.query(`SELECT * FROM employee`, function (err, results) {
+    const table = cTable.getTable(results);
+    console.log(table);
+  });
 }
 
 module.exports = {
@@ -130,5 +127,5 @@ module.exports = {
   roleTable,
   addDepartment,
   addRole,
-  departmentoptions,
+  addEmployee,
 };
