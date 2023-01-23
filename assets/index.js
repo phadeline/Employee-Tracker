@@ -6,7 +6,7 @@ const {
   addDepartment,
   addRole,
   addEmployee,
-  employeeUpdate
+  employeeUpdate,
 } = require("./queryfunctions");
 
 // Import and require mysql2
@@ -25,6 +25,7 @@ const db = mysql.createConnection(
   console.log(`Connected to the employeeTracker_db database.`)
 );
 
+//This function gives the user the options
 function allOptions() {
   inquirer
     .prompt([
@@ -66,7 +67,8 @@ function allOptions() {
           updateEmployee();
           break;
       }
-    });
+    })
+    .catch((err) => console.log(err));
 }
 
 function newDepartment() {
@@ -114,7 +116,7 @@ function newRole() {
         const departmentRole = response.chooseOptions;
         addRole(addNewTitle, addNewSalary, departmentRole);
       });
-  });
+  }).catch((err) => console.log(err));
 }
 
 function newEmployee() {
@@ -164,7 +166,8 @@ function newEmployee() {
           const addtitle = response.title;
           const addmanager = response.manager;
           addEmployee(newfirstname, newlastname, addtitle, addmanager);
-        });
+        })
+        .catch((err) => console.log(err));
     }
   );
 }
@@ -203,7 +206,8 @@ function updateEmployee() {
           const employeenewrole = response.employeerole;
 
           employeeUpdate(idofemployee, employeenewrole);
-        });
+        })
+        .catch((error) => console.log(error));
     }
   );
 }

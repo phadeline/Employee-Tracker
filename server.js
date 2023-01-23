@@ -21,3 +21,4 @@ app.use((req, res) => { //send a 404 error for every method request because no r
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
