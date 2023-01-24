@@ -126,6 +126,7 @@ function addRole(addNewTitle, addNewSalary, departmentRole) {
   })
 }
 
+//adds new employee to the table
 function addEmployee(newfirstname, newlastname, addtitle, addmanager) {
   db.query("INSERT INTO employee SET ?", {
     first_name: newfirstname,
@@ -134,6 +135,7 @@ function addEmployee(newfirstname, newlastname, addtitle, addmanager) {
     manager_id: addmanager,
   });
 
+  //displays employee table
   db.query(`SELECT * FROM employee`, function (err, results) {
     const table = cTable.getTable(results);
     console.log("\n")
@@ -144,11 +146,14 @@ function addEmployee(newfirstname, newlastname, addtitle, addmanager) {
   });
 }
 
+//updates employee information
 function employeeUpdate(idofemployee, employeenewrole) {
   db.query(`UPDATE employee set role_id = ? WHERE id = ?`, [
     employeenewrole,
     idofemployee,
   ]);
+
+  //joins roleTable and employee table and displays the result
   db.query(
     `SELECT CONCAT(employee.first_name, Space(1), employee.last_name) as employee,
   employee.id as employeeid, roleTable.id as roleid, roleTable.title as title
