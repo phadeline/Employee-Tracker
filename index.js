@@ -7,7 +7,7 @@ const {
   addRole,
   addEmployee,
   employeeUpdate,
-} = require("./queryfunctions");
+} = require("./assets/queryfunctions");
 
 // Import and require mysql2
 const mysql = require("mysql2");
@@ -47,12 +47,15 @@ function allOptions() {
       switch (responses.chooseOptions) {
         case "View all departments":
           departmentTable();
+
           break;
         case "view all roles":
           roleTable();
+
           break;
         case "view all employees":
           employeeTable();
+
           break;
         case "add a department":
           newDepartment();
@@ -67,8 +70,7 @@ function allOptions() {
           updateEmployee();
           break;
       }
-    })
-    .catch((err) => console.log(err));
+    });
 }
 
 function newDepartment() {
@@ -83,6 +85,7 @@ function newDepartment() {
     .then((response) => {
       const additionalDeparment = response.department;
       addDepartment(additionalDeparment);
+      console.log(`New Department ${response.department} has been added!`);
       departmentTable();
     });
 }
@@ -114,9 +117,12 @@ function newRole() {
         const addNewTitle = response.title;
         const addNewSalary = parseInt(response.salary);
         const departmentRole = response.chooseOptions;
+        console.log(
+          `new role: ${response.title} as been added to the database!`
+        );
         addRole(addNewTitle, addNewSalary, departmentRole);
       });
-  }).catch((err) => console.log(err));
+  });
 }
 
 function newEmployee() {
@@ -165,9 +171,11 @@ function newEmployee() {
           const newlastname = response.lastname;
           const addtitle = response.title;
           const addmanager = response.manager;
+          console.log(
+            `new employe: ${response.firstname} ${response.lastname} has been added!`
+          );
           addEmployee(newfirstname, newlastname, addtitle, addmanager);
-        })
-        .catch((err) => console.log(err));
+        });
     }
   );
 }
@@ -204,12 +212,13 @@ function updateEmployee() {
         .then((response) => {
           const idofemployee = response.employeename;
           const employeenewrole = response.employeerole;
-
+          console.log(`employee information has been updated!`);
           employeeUpdate(idofemployee, employeenewrole);
-        })
-        .catch((error) => console.log(error));
+        });
     }
   );
 }
+
+allOptions();
 
 module.exports = allOptions;

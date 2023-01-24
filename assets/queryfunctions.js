@@ -1,6 +1,7 @@
 // function for queries
 const cTable = require("console.table");
 
+
 // Import and require mysql2
 const mysql = require("mysql2");
 
@@ -37,7 +38,9 @@ function employeeTable() {
   order by employee.id`,
     function (err, results) {
       const table = cTable.getTable(results);
-      console.log(table);
+      console.log("\n")
+    console.log(table);
+    console.log("\n")
       if (err) {
         console.error(err);
       }
@@ -53,7 +56,9 @@ function roleTable() {
     FROM roleTable JOIN department on roleTable.department_id = department.id`,
     function (err, results) {
       const table = cTable.getTable(results);
-      console.log(table);
+      console.log("\n")
+    console.log(table);
+    console.log("\n")
       if (err) {
         console.error(err);
       }
@@ -66,10 +71,13 @@ function departmentTable() {
   db.query("SELECT * FROM department", function (err, results) {
     // console.Table(results);
     const table = cTable.getTable(results);
+    console.log("\n")
     console.log(table);
+    console.log("\n")
     if (err) {
       console.error(err);
     }
+   
   });
 }
 
@@ -88,6 +96,7 @@ function addDepartment(additionalDeparment) {
   db.query("SELECT * FROM department", function (err, results) {
     // console.Table(results);
     const table = cTable.getTable(results);
+    console.log("\n")
     console.log(table);
     if (err) {
       console.error(err);
@@ -109,6 +118,7 @@ function addRole(addNewTitle, addNewSalary, departmentRole) {
   //displays the roleTable
   db.query(`SELECT * FROM roleTable`, function (err, results) {
     const table = cTable.getTable(results);
+    console.log("\n")
     console.log(table);
     if (err) {
       console.error(err);
@@ -126,6 +136,7 @@ function addEmployee(newfirstname, newlastname, addtitle, addmanager) {
 
   db.query(`SELECT * FROM employee`, function (err, results) {
     const table = cTable.getTable(results);
+    console.log("\n")
     console.log(table);
     if (err) {
       console.error(err);
@@ -144,6 +155,7 @@ function employeeUpdate(idofemployee, employeenewrole) {
   FROM employee 
   left join roleTable on roleTable.id = employee.role_id;`,
     function (err, results) {
+      console.log("\n")
       const table = cTable.getTable(results);
       console.log(table);
       if (err) {
