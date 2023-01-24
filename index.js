@@ -73,6 +73,7 @@ function allOptions() {
     });
 }
 
+//this function adds a department
 function newDepartment() {
   inquirer
     .prompt([
@@ -91,6 +92,7 @@ function newDepartment() {
     });
 }
 
+//this function adds a new role
 function newRole() {
   db.query("SELECT * FROM department", function (err, results) {
     inquirer
@@ -127,6 +129,7 @@ function newRole() {
   });
 }
 
+//this function adds a new employee
 function newEmployee() {
   db.query(
     `SELECT CONCAT(employee.first_name, Space(1), employee.last_name) as manager,
@@ -183,6 +186,8 @@ function newEmployee() {
   );
 }
 
+
+//this function updates employee information
 function updateEmployee() {
   db.query(
     `SELECT CONCAT(employee.first_name, Space(1), employee.last_name) as employeename,
