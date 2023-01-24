@@ -56,8 +56,9 @@ The purpose of this project is to create an application that allows the user to 
 In order to use this employee tracker, the user will have to enter "npm i" in their terminal in order to install the necessary packages. The user is expected to have MySQL installed as well. 
 
 ## Usage
-- Link to the Deployed application: 
+ 
 - Video of the web app: 
+[employee tracker.webm](https://user-images.githubusercontent.com/112015433/214361237-8857b793-33c8-4ad6-8e78-71a990504973.webm)
 
 
 ## Tests
