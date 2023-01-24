@@ -123,7 +123,7 @@ function addRole(addNewTitle, addNewSalary, departmentRole) {
     if (err) {
       console.error(err);
     }
-  });
+  })
 }
 
 function addEmployee(newfirstname, newlastname, addtitle, addmanager) {

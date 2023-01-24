@@ -47,15 +47,15 @@ function allOptions() {
       switch (responses.chooseOptions) {
         case "View all departments":
           departmentTable();
-
+          allOptions();
           break;
         case "view all roles":
           roleTable();
-
+          allOptions();
           break;
         case "view all employees":
           employeeTable();
-
+          allOptions();
           break;
         case "add a department":
           newDepartment();
@@ -87,6 +87,7 @@ function newDepartment() {
       addDepartment(additionalDeparment);
       console.log(`New Department ${response.department} has been added!`);
       departmentTable();
+      allOptions();
     });
 }
 
@@ -121,6 +122,7 @@ function newRole() {
           `new role: ${response.title} as been added to the database!`
         );
         addRole(addNewTitle, addNewSalary, departmentRole);
+        allOptions();
       });
   });
 }
@@ -175,6 +177,7 @@ function newEmployee() {
             `new employe: ${response.firstname} ${response.lastname} has been added!`
           );
           addEmployee(newfirstname, newlastname, addtitle, addmanager);
+          allOptions();
         });
     }
   );
@@ -214,6 +217,7 @@ function updateEmployee() {
           const employeenewrole = response.employeerole;
           console.log(`employee information has been updated!`);
           employeeUpdate(idofemployee, employeenewrole);
+          allOptions();
         });
     }
   );
@@ -221,4 +225,4 @@ function updateEmployee() {
 
 allOptions();
 
-module.exports = allOptions;
+module.exports = { allOptions };
