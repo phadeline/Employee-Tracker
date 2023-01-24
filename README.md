@@ -58,7 +58,7 @@ In order to use this employee tracker, the user will have to enter "npm i" in th
 ## Usage
  
 - Video of the web app: 
-[employee tracker.webm](https://user-images.githubusercontent.com/112015433/214361237-8857b793-33c8-4ad6-8e78-71a990504973.webm)
+https://drive.google.com/file/d/1_1N73PavUtngLDZyFWgZ4vGzmmCLMVXy/view
 
 
 ## Tests
