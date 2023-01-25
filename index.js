@@ -136,8 +136,8 @@ function newEmployee() {
     employee.id as managerid, roleTable.id as roleid, roleTable.title as title
     FROM employee 
     left join roleTable on roleTable.id = employee.role_id
-    left join employee as a on employee.manager_id = a.id
-    order by title;`,
+    left join employee as a on employee.manager_id = a.id`,
+
     function (err, results) {
       if (err) {
         console.log(err);
@@ -185,7 +185,6 @@ function newEmployee() {
     }
   );
 }
-
 
 //this function updates employee information
 function updateEmployee() {
